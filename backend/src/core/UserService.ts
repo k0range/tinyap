@@ -74,7 +74,13 @@ const UserService = new Elysia()
       return {"message": "Access token is missing"}
     }
 
-    const user = (await tokenToAccount(jwt, accessToken.value)).user
+    let user;
+    try {
+      user = (await tokenToAccount(jwt, accessToken.value)).user;
+    } catch (error) {
+      set.status = "Unauthorized";
+      return {"message": "Invalid access token"};
+    }
 
     await prisma.user.update({
       "where": {
