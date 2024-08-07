@@ -20,12 +20,18 @@ const UserService = new Elysia()
     return account.user
   })
 
-  .get("/api/profile", async ({ query }: any) => {
-    const user = await prisma.user.findUnique({
-      where: {
-        acct: query.acct
-      }
-    })
+  .get("/api/profile", async ({ query, set }: any) => {
+    let user
+    try {
+      user = await prisma.user.findUnique({
+        where: {
+          acct: query.acct
+        }
+      })
+    } catch (error) {
+      set.status = "Not Found";
+      return {"message": "User not found"};
+    }
 
     if (!user) {
       if (query.acct.split("@")[1] != 'tinyap.instance') { // リモートのユーザー
@@ -68,14 +74,20 @@ const UserService = new Elysia()
     })
   })
 
-  .get("/.well-known/webfinger", async ({ query }: any) => {
+  .get("/.well-known/webfinger", async ({ query, set }: any) => {
     const acct = query.resource.replace(/^acct:/, "")
 
-    const user = await prisma.user.findUnique({
-      where: {
-        acct: "@" + acct
-      }
-    })
+    let user
+    try {
+      user = await prisma.user.findUnique({
+        where: {
+          acct: "@" + acct
+        }
+      })
+    } catch (error) {
+      set.status = "Not Found";
+      return {"message": "User not found"};
+    }
     
     return {
       "subject": "acct:" + acct,
@@ -92,11 +104,17 @@ const UserService = new Elysia()
   .get("/ap/user/:id", async ({ set, params }: any) => {
     set.headers["content-type"] = "application/activity+json; charset=utf-8"
     
-    const user = await prisma.user.findUnique({
-      where: {
-        id: params.id
-      }
-    })
+    let user
+    try {
+      user = await prisma.user.findUnique({
+        where: {
+          id: params.id
+        }
+      })
+    } catch (error) {
+      set.status = "Not Found";
+      return {"message": "User not found"};
+    }
 
     return JSON.stringify({
       "@context": [
