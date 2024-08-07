@@ -20,7 +20,7 @@ const UserService = new Elysia()
     return account.user
   })
 
-  .get("/api/profile", async ({ jwt, cookie, set, query }: any) => {
+  .get("/api/profile", async ({ query }: any) => {
     const user = await prisma.user.findUnique({
       where: {
         acct: query.acct

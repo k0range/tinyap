@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const TimelineService = new Elysia()
-  .get("/api/post/show", async ({ jwt, body }: any) => {
+  .get("/api/post/show", async () => {
     return await prisma.post.findMany({
       orderBy: {
         createdAt: 'desc'

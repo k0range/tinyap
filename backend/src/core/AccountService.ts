@@ -111,7 +111,7 @@ const AccountService = new Elysia()
     }
   })
 
-  .post("/api/refresh", async ({ jwt, body, cookie, set }: any) => {
+  .post("/api/refresh", async ({ jwt, cookie, set }: any) => {
     const { accessToken, refreshToken } = cookie
 
     if (!refreshToken.value) {
@@ -173,7 +173,7 @@ const AccountService = new Elysia()
     return {"status": "ok", "accessToken": accessJWTToken, "refreshToken": refreshJWTToken}
   })
 
-  .post("/api/logout", async ({ jwt, body, cookie }: any) => {
+  .post("/api/logout", async ({ jwt, cookie }: any) => {
     const { accessToken, refreshToken } = cookie
 
     const accessTokenPayload = await jwt.verify(accessToken.value)
