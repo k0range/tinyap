@@ -62,7 +62,7 @@ export default {
       window.addEventListener('resize', this.updateSuffixWidth);
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener('resize', this.updateSuffixWidth);
   },
   methods: {
