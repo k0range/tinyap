@@ -62,7 +62,7 @@ const app = new Elysia()
       ...request.headers,
       'Origin': 'http://frontend:5173'
     }
-    delete headers['accept-encoding'];
+    headers['accept-encoding'] = undefined;
 
     const response = await fetch(`http://frontend:5173${url.pathname}${url.search}`, {
       method: request.method,
