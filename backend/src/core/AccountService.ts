@@ -180,10 +180,17 @@ const AccountService = new Elysia()
     return {"status": "ok", "accessToken": accessJWTToken, "refreshToken": refreshJWTToken}
   })
 
-  .post("/api/logout", async ({ jwt, cookie }: any) => {
+  .post("/api/logout", async ({ jwt, cookie, set }: any) => {
     const { accessToken, refreshToken } = cookie
 
-    const accessTokenPayload = await jwt.verify(accessToken.value)
+    let accessTokenPayload;
+    try {
+      accessTokenPayload = await jwt.verify(accessToken.value);
+    } catch (error) {
+      set.status = "Unauthorized";
+      return {"message": "Invalid access token"};
+    }
+
 
     accessToken.remove();
     refreshToken.remove();
