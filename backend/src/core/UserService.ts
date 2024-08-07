@@ -37,7 +37,13 @@ const UserService = new Elysia()
       if (query.acct.split("@")[1] != 'tinyap.instance') { // リモートのユーザー
         const serverDomain = query.acct.split("@")[2]
 
-        const webfinger = await axios.get(`https://${serverDomain}/.well-known/webfinger?resource=acct:${query.acct.substring(1)}`, { headers: { Accept: 'application/activity+json' } })
+        let webfinger;
+        try {
+          webfinger = await axios.get(`https://${serverDomain}/.well-known/webfinger?resource=acct:${query.acct.substring(1)}`, { headers: { Accept: 'application/activity+json' } });
+        } catch (error) {
+          set.status = "Not Found";
+          return {"message": "Remote user not found"};
+        }
 
         const self = webfinger.data.links.find((link: { rel: String }) => link.rel === "self")
         const profile = await axios.get(self.href, { headers: { Accept: 'application/activity+json' } })
