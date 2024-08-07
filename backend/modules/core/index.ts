@@ -3,7 +3,6 @@
 // そういや今EventEmitter機能する？
 
 import Elysia from "elysia";
-import lodash from "lodash"
 
 import eventEmitter from '../../src/eventEmitter';
 
