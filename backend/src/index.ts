@@ -12,8 +12,6 @@ import AccountService from "./core/AccountService";
 import TimelineService from "./core/TimelineService";
 import UserService from "./core/UserService";
 
-import { tokenToAccount } from "./utils/TokenToAccount";
-
 console.log("TinyAP\n")
 
 const prisma = new PrismaClient()
@@ -31,29 +29,6 @@ const app = new Elysia()
   .use(TimelineService)
   .use(UserService)
 
-  .post("/api/post/create", async ({ cookie, body, jwt, set }: any) => {
-    const { accessToken } = cookie
-    if (!accessToken.value) {
-      set.status = "Unauthorized"
-      return {"message": "Access token is missing"}
-    }
-
-    const account = await tokenToAccount(jwt, accessToken.value)
-
-    if (account.user) {
-      await prisma.post.create({
-        data: {
-          authorId: account.user.id,
-          content: body.content,
-          createdAt: new Date()
-        }
-      })
-    }
-
-    return {"status": "ok"}
-  })
-
-  
   // ここにないrouteはすべてフロントエンドにproxy
   .get("*", async ({ request }: any) => {
     const url = new URL(request.url)
