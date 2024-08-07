@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-async function tokenToAccount(jwt: any, token: String) {
+async function tokenToAccount(jwt: any, token: string) {
   const payload = await jwt.verify(token)
 
   if (!payload) {
