@@ -24,4 +24,9 @@ const modules = fs.readdirSync(MODULES_DIR, { withFileTypes: true })
   .filter(dirent => dirent.isDirectory())
   .map(dirent => path.join(MODULES_DIR, dirent.name));
 
-modules.forEach(copyModuleMigrations);
+console.log(`Found modules: ${modules.join(", ")}`);
+
+modules.forEach(module => {
+  console.log(`Processing module: ${module}`);
+  copyModuleMigrations(module);
+});
