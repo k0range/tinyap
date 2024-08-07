@@ -1,0 +1,13 @@
+{
+  "name": "core",
+  "module": "index.ts",
+  "type": "module",
+  "description": "Basic functions of TinyAP. Includes Accounts, Users, Following/Followers.",
+  "version": "1.0.0",
+  "author": "TinyAP",
+  "dependencies": {
+    "@types/lodash": "^4.17.7",
+    "lodash": "^4.17.21",
+    "marked": "^13.0.2"
+  }
+}

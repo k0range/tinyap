@@ -1,0 +1,25 @@
+{
+  "name": "tinyap",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts",
+    "postinstall": "bun installModuleDeps.ts",
+    "generate-migrate": "bunx prisma migrate dev --schema src/db/schema.prisma",
+    "run-migrate": "bunx prisma migrate deploy",
+    "_comment": "↑ src/db/ではなくprismaフォルダを読み込ませるように、引数を付けない"
+  },
+  "dependencies": {
+    "@elysiajs/jwt": "^1.1.0",
+    "@elysiajs/swagger": "^1.1.0",
+    "@prisma/client": "5.17.0",
+    "@types/node": "^20.14.12",
+    "axios": "^1.7.3",
+    "elysia": "latest",
+    "prisma": "^5.17.0"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}
