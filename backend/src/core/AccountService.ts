@@ -119,10 +119,12 @@ const AccountService = new Elysia()
       throw new Error("Refresh token is missing");
     }
 
-    const refreshTokenPayload = await jwt.verify(refreshToken.value)
-    if (!refreshTokenPayload) {
-      set.status = "Forbidden"
-      throw new Error("Refresh token is invalid");
+    let refreshTokenPayload;
+    try {
+      refreshTokenPayload = await jwt.verify(refreshToken.value);
+    } catch (error) {
+      set.status = "Forbidden";
+      throw new Error("Invalid refresh token");
     }
 
     const account = await prisma.account.findUnique({
