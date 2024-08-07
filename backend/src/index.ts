@@ -89,9 +89,15 @@ const moduleDirs = fs.readdirSync(modulesDir);
 
 for (const dir of moduleDirs) {
   const pluginPath = path.join(modulesDir, dir, 'index.ts');
-  const { default: plugin } = await import(pluginPath);
-  plugin(app);
-  console.log(`🧩 Module Loaded: ${dir}`)
+  let plugin;
+  try {
+    const { default: plugin } = await import(pluginPath);
+    plugin(app);
+    console.log(`🧩 Module Loaded: ${dir}`)
+  } catch (error) {
+    console.error(`Failed to load module: ${dir}`, error);
+    continue;
+  }
 }
 
 app.use(swagger())
