@@ -21,7 +21,7 @@ async function tokenToAccount(jwt: any, token: String) {
   if (account) {
     return account
   } else {
-    throw new Error("Account not found");
+    throw new Error("Account not found: " + payload.username);
   }
 }
 
