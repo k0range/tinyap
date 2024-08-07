@@ -5,6 +5,9 @@ if [ -f package.json ]; then
   bun install
 fi
 
-bunx prisma migrate deploy
+if ! bunx prisma migrate deploy; then
+  echo "Prisma migration failed" >&2
+  exit 1
+fi
 
 exec bun dev
