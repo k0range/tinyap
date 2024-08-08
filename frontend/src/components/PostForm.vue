@@ -25,17 +25,10 @@ export default {
     }
   },
   methods: {
-    post(){
-      api.post("/post/create", {
+    async post(){
+      await api.post("/post/create", {
         "content": this.postFormContent
       })
-        .then(() => {
-          // TODO: 投稿されたことを表示
-        })
-        .catch((error) => {
-          console.error(error)
-          alert("投稿に失敗しました: " + error)
-        })
     }
   }
 }
