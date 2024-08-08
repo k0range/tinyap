@@ -62,13 +62,8 @@ const AccountService = new Elysia()
   .post("/api/login", async ({ jwt, body, cookie }: any) => {
     const { accessToken, refreshToken } = cookie
 
-    let loginTarget: Account | null;
-    try {
-      loginTarget = await prisma.account.findUnique({ where: { username: body.username } });
-    } catch (error) {
-      return {"status": "error", "message": "Database error"};
-    }
-
+    const loginTarget: Account | null = await prisma.account.findUnique({ where: { username: body.username } })
+  
     // アカウントの存在確認
     if (!loginTarget) {
       return {"status": "error", "message": "Account not found"}
