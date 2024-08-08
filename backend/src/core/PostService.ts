@@ -25,13 +25,7 @@ const TimelineService = new Elysia()
       return {"message": "Access token is missing"}
     }
 
-    let account;
-    try {
-      account = await tokenToAccount(jwt, accessToken.value);
-    } catch (error) {
-      set.status = "Unauthorized";
-      return {"message": "Invalid access token"};
-    }
+    const account = await tokenToAccount(jwt, accessToken.value);
 
     if (account.user) {
       await prisma.post.create({
