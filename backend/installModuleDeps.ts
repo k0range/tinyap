@@ -12,6 +12,7 @@ function installModuleDependencies(modulePath: string) {
       console.error(`Failed to install dependencies for ${modulePath}:`, result.error);
     }
   }
+}
 
 function installAllModules() {
   const modules = readdirSync(MODULES_DIR, { withFileTypes: true })
