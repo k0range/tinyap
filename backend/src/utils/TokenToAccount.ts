@@ -14,19 +14,14 @@ async function tokenToAccount(jwt: any, token: string) {
     throw new Error("Token not valid");
   }
 
-  let account
-  try {
-    account = await prisma.account.findUnique({
-      "where": {
-        username: payload.username
-      },
-      "include": {
-        user: true
-      }
-    })
-  } catch (error) {
-    throw new Error("Failed to get account: " + error)
-  }
+  const account = await prisma.account.findUnique({
+    "where": {
+      username: payload.username
+    },
+    "include": {
+      user: true
+    }
+  })
 
   if (account) {
     return account
