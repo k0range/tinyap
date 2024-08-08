@@ -3,12 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function tokenToAccount(jwt: any, token: string) {
-  let payload;
-  try {
-    payload = await jwt.verify(token);
-  } catch (error: any) {
-    throw new Error("Token validation failed: " + error.message);
-  }
+  const payload = await jwt.verify(token)
 
   if (!payload) {
     throw new Error("Token not valid");
